@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tinycan Products</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+      background: #f9f9f9;
+    }
+    #products {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+    #products h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .product-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .product {
+      background: white;
+      border: 1px solid #ddd;
+      padding: 15px;
+      width: 200px;
+      text-align: center;
+      border-radius: 8px;
+      box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+    }
+    .product img {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+    .product button {
+      margin-top: 10px;
+      padding: 8px 15px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .product button:hover {
+      background-color: #0056b3;
+    }
+    #cart {
+      max-width: 900px;
+      margin: 20px auto 40px auto;
+      padding: 15px;
+      border: 2px solid #007BFF;
+      border-radius: 8px;
+      background: white;
+    }
+    #cart h2 {
+      text-align: center;
+    }
+    #cart-items {
+      list-style: none;
+      padding: 0;
+      min-height: 40px;
+      margin: 0;
+    }
+    #cart-items li {
+      margin: 8px 0;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+<section id="products">
+  <h1>Our Products</h1>
+  <div class="product-list">
+
+    <div class="product" data-name="Pants" data-price="29.99">
+      <img src="https://via.placeholder.com/200x200?text=Pants" alt="Pants" />
+      <h3>Pants</h3>
+      <p>Comfortable and stylish pants perfect for any occasion.</p>
+      <p><strong>$29.99</strong></p>
+      <button>Add to Cart</button>
+    </div>
+
+    <div class="product" data-name="Long Sleeve Shirt" data-price="24.99">
+      <img src="https://via.placeholder.com/200x200?text=Long+Sleeve+Shirt" alt="Long Sleeve Shirt" />
+      <h3>Long Sleeve Shirt</h3>
+      <p>Soft cotton long sleeve shirt, available in multiple colors.</p>
+      <p><strong>$24.99</strong></p>
+      <button>Add to Cart</button>
+    </div>
+
+    <div class="product" data-name="Mug" data-price="12.99">
+      <img src="https://via.placeholder.com/200x200?text=Mug" alt="Mug" />
+      <h3>Mug</h3>
+      <p>Durable ceramic mug for your favorite hot beverages.</p>
+      <p><strong>$12.99</strong></p>
+      <button>Add to Cart</button>
+    </div>
+
+    <div class="product" data-name="20 oz Water Bottle" data-price="14.99">
+      <img src="https://via.placeholder.com/200x200?text=20oz+Water+Bottle" alt="20 oz Water Bottle" />
+      <h3>20 oz Water Bottle</h3>
+      <p>Stay hydrated on the go with this reusable 20 oz water bottle.</p>
+      <p><strong>$14.99</strong></p>
+      <button>Add to Cart</button>
+    </div>
+
+  </div>
+</section>
+
+<section id="cart">
+  <h2>Shopping Cart</h2>
+  <ul id="cart-items">
+    <li>Your cart is empty.</li>
+  </ul>
+</section>
+
+<script>
+  const cart = [];
+  const cartItemsEl = document.getElementById('cart-items');
+  const buttons = document.querySelectorAll('.product button');
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      const productEl = button.closest('.product');
+      const name = productEl.getAttribute('data-name');
+      const price = parseFloat(productEl.getAttribute('data-price'));
+
+      cart.push({ name, price });
+      updateCart();
+    });
+  });
+
+  function updateCart() {
+    if (cart.length === 0) {
+      cartItemsEl.innerHTML = '<li>Your cart is empty.</li>';
+      return;
+    }
+
+    const counts = {};
+    let total = 0;
+
+    cart.forEach(item => {
+      counts[item.name] = (counts[item.name] || 0) + 1;
+      total += item.price;
+    });
+
+    let html = '';
+    for (const [name, qty] of Object.entries(counts)) {
+      html += `<li>${name} x${qty}</li>`;
+    }
+    html += `<li><strong>Total: $${total.toFixed(2)}</strong></li>`;
+
+    cartItemsEl.innerHTML = html;
+  }
+</script>
+
+</body>
+</html>
